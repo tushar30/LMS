@@ -1,0 +1,23 @@
+<template>
+    <lightning-card title="Lightning Message Service Demo" icon-name="utility:connected_apps">
+        <div class="slds-m-around_medium">
+            <p>MessageChannel: demoMessage__c</p>
+            <br>
+            <p>Subscribed: {subscribeStatus}</p>
+            <br>
+            <lightning-button label="Subscribe" onclick={subscribeMC}></lightning-button>
+            <lightning-button label="Unsubscribe" onclick={unsubscribeMC}></lightning-button>
+        </div>
+        
+        <div class="slds-p-around_medium lgc-bg">
+            <lightning-input type="text" label="Mesage" value={myMessage} onchange={handleChange}></lightning-input>
+            <lightning-button label="Publish" onclick={publishMC}></lightning-button>
+        </div>
+
+        <div class="slds-p-around_medium lgc-bg">
+            <p>Received Message:</p>
+            <lightning-textarea readonly value={receivedMessage} rows="7" style="height:150px;"></lightning-textarea>
+        </div>
+
+    </lightning-card>
+</template>

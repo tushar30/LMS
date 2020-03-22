@@ -1,0 +1,59 @@
+<apex:page lightningStylesheets="true">
+    <apex:slds />
+    <div>
+        <h2>Lightning Message Service Demo</h2>
+        <div class="slds-m-around_medium">
+            <p>MessageChannel: demoMessage__c</p>
+            <br/>
+            <p>Subscribed: <label id="status" value="False" /></p>
+            <br/><br/>
+            <button onclick="subscribeMC()" class="slds-button slds-button_neutral">Subscribe</button>
+            <button onclick="unsubscribeMC()" class="slds-button slds-button_neutral">Unsubscribe</button>
+        </div>
+        <p>Message:</p>
+        <input type="text" id="theMessage" style="width: 100%"/>
+        <br/>
+        <button onclick="publishMC()" class="slds-button slds-button_neutral">Publish</button>
+        <br/>
+        <br/>
+        <p>Received message:</p>
+        <div lightning-textarea_textarea="" class="slds-form-element__control slds-grow textarea-container">
+            <textarea id="messageTextArea" name="input4" readonly="true" class="slds-textarea" style="width: 100%; height: 150px;"></textarea>
+        </div>
+    </div>
+
+    <script>
+        // Load the Message Channel token in a variable
+        var SAMPLEMC = "{!$MessageChannel.demoMessage__c}";
+        var subscription;
+
+        function publishMC() {
+            const message = {
+                message: document.getElementById('theMessage').value,
+                source: "VisualForce"
+            };
+            sforce.one.publish(SAMPLEMC, message);
+        }
+ 
+        function handleMessage(message) {
+            var textArea = document.querySelector("#messageTextArea");
+            textArea.innerHTML = message ? JSON.stringify(message, null, '\t') : 'no message payload';
+        }
+ 
+        function subscribeMC() {
+            if (!subscription) {
+                document.getElementById('status').innerHTML = 'True';
+                subscription = sforce.one.subscribe(SAMPLEMC, handleMessage, { scope: "APPLICATION" });
+            }
+        }
+ 
+        function unsubscribeMC() {
+            if (subscription) {
+                document.getElementById('status').innerHTML = 'False';
+                sforce.one.unsubscribe(subscription);
+                subscription = null;
+            }
+        }
+    </script>
+    
+</apex:page>

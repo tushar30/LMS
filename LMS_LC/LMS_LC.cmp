@@ -1,0 +1,26 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+    <lightning:messageChannel type="demoMessage__c" aura:id="demoMessageChannel" onMessage="{!c.handleMessage}" scope="APPLICATION"/>
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="sendMessage" type="String"/>
+
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:icon iconName="utility:connected_apps" size="small"/>
+            Lightning Message Service Demo
+        </aura:set>
+        <div class="slds-m-around_medium">
+            <p>MessageChannel: demoMessage__c</p>
+            <br/>
+            <p>Subscribed: True</p>
+            <br/>
+        </div>
+        <p>Message:</p>
+        <lightning:input value="{!v.sendMessage}" />
+        <lightning:button class="slds-button slds-button_neutral" label="Publish" title="Publish"  onclick="{!c.publishMC}" />   
+        
+        <p>
+            <p>Received Message:</p>
+            <lightning:textarea name="input4" readonly="true" value="{!v.message}" class ="textarea"/>
+        </p>
+    </lightning:card>
+</aura:component>	
