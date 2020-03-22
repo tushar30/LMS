@@ -1,0 +1,2 @@
+# LMS
+Lightning Message Service
